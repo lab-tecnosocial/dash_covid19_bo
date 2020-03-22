@@ -1,0 +1,9 @@
+.contenedor {
+    max-width: 1024px;
+    margin: 0 auto;
+    font: 1em Roboto, Helvetica, arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}

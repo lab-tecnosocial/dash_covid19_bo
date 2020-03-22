@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=\, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <link href="estilo.css" type="text/css" rel="stylesheet">
+
+    <title>Coronavirus en Sudamérica y Bolivia</title>
+</head>
+
+<body>
+    <div class="contenedor">
+        <div class="card main">
+            <h1>Dashboard de casos de coronavirus en Sudamérica y Bolivia</h1>
+            <p>Este es un dashboard inicial sobre los datos sobre coronavirus en Sudámerica y Bolivia.
+                Los datos los recolectamos automáticamente cada diez minutos de una <a
+                    href="https://github.com/novelcovid/api" target="_blank">JSON API</a> hecha a partir de los datos
+                del <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">Johns Hopkins University Center
+                    for Systems Science and Engineering (JHU CSSE)</a>.
+                De momento contamos con dos visualizaciones, pero iremos actualizando otras conforme transcurra el
+                tiempo.</p>
+        </div>
+        <div class="card fig1">
+            <h2>Número y tipos de casos de coronavirus</h2>
+            <p>Clic en la barra para ver el dato preciso. Clic en la leyenda de la izquierda por tipo de casos. </p>
+            <canvas id="myChart1" width="400" height="200"></canvas>
+        </div>
+        <div class="card fig2">
+            <h2>Difusión del coronavirus</h2>
+            <p>Clic en el punto de la linea para ver el dato preciso. Clic en la leyenda para filtrar por paises.
+            </p>
+            <canvas id="myChart2" width="400" height="200"></canvas>
+        </div>
+        <div class="card twitter1">
+        </div>
+    </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', setup);
+
+        async function setup() {
+            const ctx = document.getElementById('myChart1').getContext('2d');
+            const datos = await getDatos1();
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: datos.pais,
+                    datasets: [
+                        {
+                            label: 'No. Casos',
+                            data: datos.casos,
+                            borderColor: 'rgba(255, 205, 86, 1)',
+                            backgroundColor: 'rgba(255, 205, 86, 0.5)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'No. Muertos',
+                            data: datos.muertos,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'No. Recuperados',
+                            data: datos.recuperados,
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                            borderWidth: 1
+                        }
+
+                    ]
+                },
+                options: {
+                    legend: {
+                        display: true,
+                        position: 'left'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Casos detectados, muertos y recuperados de coronavirus en Sudamérica'
+                    }
+                }
+            });
+
+            const ctx2 = document.getElementById('myChart2').getContext('2d');
+            const datos2 = await getDatos2();
+            const myChart2 = new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: datos2.fechaCut[0],
+                    datasets: [
+
+                        {
+                            label: 'Brasil',
+                            data: datos2.serieCut[0],
+                            borderColor: 'rgba(51, 160, 43, 1)',
+                            backgroundColor: 'rgba(51, 160, 43, 0.5)',
+                            fill: false,
+                            pointRadius: 4,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Ecuador',
+                            data: datos2.serieCut[1],
+                            borderColor: 'rgba(255, 205, 86, 1)',
+                            backgroundColor: 'rgba(255, 205, 86, 0.5)',
+                            fill: false,
+                            pointRadius: 4,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Argentina',
+                            data: datos2.serieCut[2],
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            fill: false,
+                            pointRadius: 4,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Chile',
+                            data: datos2.serieCut[3],
+                            borderColor: 'rgba(229, 75, 226, 1)',
+                            backgroundColor: 'rgba(229, 75, 226, 0.5)',
+                            fill: false,
+                            pointRadius: 4,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Colombia',
+                            data: datos2.serieCut[4],
+                            borderColor: 'rgba(255, 225, 86, 1)',
+                            backgroundColor: 'rgba(255, 225, 86, 0.5)',
+                            fill: false,
+                            pointRadius: 4,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Peru',
+                            data: datos2.serieCut[5],
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            fill: false,
+                            pointRadius: 4,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Paraguay',
+                            data: datos2.serieCut[6],
+                            borderColor: 'rgba(201, 203, 207, 1)',
+                            backgroundColor: 'rgba(201, 203, 207, 0.5)',
+                            fill: false,
+                            pointRadius: 4,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Bolivia',
+                            data: datos2.serieCut[7],
+                            borderColor: 'rgba(100, 205, 86, 1',
+                            backgroundColor: 'rgba(100, 205, 86, 0.5',
+                            fill: false,
+                            pointRadius: 4,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Uruguay',
+                            data: datos2.serieCut[8],
+                            borderColor: 'rgba(54, 162, 200, 1)',
+                            backgroundColor: 'rgba(54, 162, 200, 0.5)',
+                            fill: false,
+                            pointRadius: 4,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Venezuela',
+                            data: datos2.serieCut[9],
+                            borderColor: 'rgba(100, 100, 86, 1)',
+                            backgroundColor: 'rgba(100, 100, 86, 0.5)',
+                            fill: false,
+                            pointRadius: 4,
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    legend: {
+                        display: true,
+                        position: 'left'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Evolución de los casos detectados en Sudámerica'
+                    }
+
+                }
+            });
+
+        }
+
+        const api1_url = 'https://corona.lmao.ninja/countries';
+
+
+
+        async function getDatos1() {
+            const response = await fetch(api1_url);
+            const data = await response.json();
+
+            const pais = [];
+            const casos = [];
+            const muertos = [];
+            const recuperados = [];
+
+            // filtrar paises
+            const sub = ['Brazil', 'Chile', 'Ecuador', 'Peru', 'Argentina', 'Colombia', 'Venezuela', 'Paraguay', 'Uruguay', 'Bolivia'];
+            const dataSub = data.filter(item => {
+                return sub.includes(item.country);
+            });
+
+            // Empujar datos
+
+            // for(let i = 0; i < dataSub.length; i++){
+            //     country.push(dataSub[i].country);
+            //     cases.push(dataSub[i].cases);
+            // }
+
+            dataSub.forEach(item => {
+                pais.push(item.country);
+                casos.push(item.cases);
+                muertos.push(item.deaths);
+                recuperados.push(item.recovered);
+            });
+
+            return { pais, casos, muertos, recuperados }
+        };
+        const api2_url = 'https://corona.lmao.ninja/historical';
+        async function getDatos2() {
+            const response2 = await fetch(api2_url);
+            const data2 = await response2.json();
+
+            const pais = [];
+            const fecha = [];
+            const serie = [];
+
+            // filtrar paises
+            const sub = ['Brazil', 'Chile', 'Ecuador', 'Peru', 'Argentina', 'Colombia', 'Venezuela', 'Paraguay', 'Uruguay', 'Bolivia'];
+            const dataSub = data2.filter(item => {
+                return sub.includes(item.country);
+            });
+
+            dataSub.forEach(item => {
+                pais.push(item.country);
+                fecha.push(Object.keys(item.timeline.cases));
+                serie.push(Object.values(item.timeline.cases));
+            });
+
+            // Cortar fechas
+
+            const fechaCut = [];
+            const serieCut = [];
+
+            fecha.forEach(i => {
+                fechaCut.push(i.slice(-21))
+            });
+            serie.forEach(i => {
+                serieCut.push(i.slice(-21))
+            });
+
+
+            return { pais, fechaCut, serieCut }
+        };
+
+
+        getDatos1();
+        getDatos2();
+
+        setInterval(getDatos1, 600000);
+        setInterval(getDatos2, 600000);
+    </script>
+
+</body>
+
+</html>
