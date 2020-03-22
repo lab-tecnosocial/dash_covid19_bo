@@ -27,14 +27,15 @@
         </div>
         <div class="card fig1">
             <h2>Número y tipos de casos de coronavirus</h2>
-            <p>Clic en la barra para ver el dato preciso. Clic en la leyenda de la izquierda por filtrar por tipo de casos. </p>
-            <canvas id="myChart1" width="400" height="200"></canvas>
+            <p>Clic en la barra para ver el dato preciso. Clic en los cuadros coloreados de la leyenda para filtrar por tipo de
+                caso. </p>
+            <canvas id="myChart1" width="300" height="200"></canvas>
         </div>
         <div class="card fig2">
             <h2>Difusión del coronavirus</h2>
-            <p>Clic en el punto de la linea para ver el dato preciso. Clic en la leyenda para filtrar por paises.
+            <p>Clic en el punto de la linea para ver el dato preciso. Clic en la leyenda coloreada para filtrar por paises.
             </p>
-            <canvas id="myChart2" width="400" height="200"></canvas>
+            <canvas id="myChart2" width="300" height="250"></canvas>
         </div>
         <div class="card twitter1">
         </div>
@@ -79,7 +80,42 @@
                 options: {
                     legend: {
                         display: true,
-                        position: 'left'
+                        position: 'bottom',
+                        onClick: function (e, legendItem) {
+                            var index = legendItem.datasetIndex;
+                            var ci = this.chart;
+                            var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+                            var anyOthersAlreadyHidden = false;
+                            var allOthersHidden = true;
+                            ci.data.datasets.forEach(function (e, i) {
+                                var meta = ci.getDatasetMeta(i);
+
+                                if (i !== index) {
+                                    if (meta.hidden) {
+                                        anyOthersAlreadyHidden = true;
+                                    } else {
+                                        allOthersHidden = false;
+                                    }
+                                }
+                            });
+                            if (alreadyHidden) {
+                                ci.getDatasetMeta(index).hidden = null;
+                            } else {
+                                ci.data.datasets.forEach(function (e, i) {
+                                    var meta = ci.getDatasetMeta(i);
+                                    if (i !== index) {
+                                        if (anyOthersAlreadyHidden && !allOthersHidden) {
+                                            meta.hidden = true;
+                                        } else {
+                                            meta.hidden = meta.hidden === null ? !meta.hidden : null;
+                                        }
+                                    } else {
+                                        meta.hidden = null;
+                                    }
+                                });
+                            }
+                            ci.update();
+                        }
                     },
                     title: {
                         display: true,
@@ -191,7 +227,42 @@
                 options: {
                     legend: {
                         display: true,
-                        position: 'left'
+                        position: 'bottom',
+                        onClick: function (e, legendItem) {
+                            var index = legendItem.datasetIndex;
+                            var ci = this.chart;
+                            var alreadyHidden = (ci.getDatasetMeta(index).hidden === null) ? false : ci.getDatasetMeta(index).hidden;
+                            var anyOthersAlreadyHidden = false;
+                            var allOthersHidden = true;
+                            ci.data.datasets.forEach(function (e, i) {
+                                var meta = ci.getDatasetMeta(i);
+
+                                if (i !== index) {
+                                    if (meta.hidden) {
+                                        anyOthersAlreadyHidden = true;
+                                    } else {
+                                        allOthersHidden = false;
+                                    }
+                                }
+                            });
+                            if (alreadyHidden) {
+                                ci.getDatasetMeta(index).hidden = null;
+                            } else {
+                                ci.data.datasets.forEach(function (e, i) {
+                                    var meta = ci.getDatasetMeta(i);
+                                    if (i !== index) {
+                                        if (anyOthersAlreadyHidden && !allOthersHidden) {
+                                            meta.hidden = true;
+                                        } else {
+                                            meta.hidden = meta.hidden === null ? !meta.hidden : null;
+                                        }
+                                    } else {
+                                        meta.hidden = null;
+                                    }
+                                });
+                            }
+                            ci.update();
+                        }
                     },
                     title: {
                         display: true,
