@@ -282,7 +282,7 @@
             const response = await fetch(api1_url);
             const data = await response.json();
 
-            const pais = [];
+            let pais = [];
             const casos = [];
             const muertos = [];
             const recuperados = [];
@@ -306,7 +306,7 @@
                 muertos.push(item.deaths);
                 recuperados.push(item.recovered);
             });
-
+            pais.splice(0, 1, 'Brasil');
             return { pais, casos, muertos, recuperados }
         };
         const api2_url = 'https://corona.lmao.ninja/historical';
