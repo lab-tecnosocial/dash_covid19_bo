@@ -1,7 +1,7 @@
 .contenedor {
     max-width: 1024px;
     margin: 0 auto;
-    font: 1em Roboto, Helvetica, arial, sans-serif;
+    font: 1em 'Lato', sans-serif;
 }
 
 h1 {
