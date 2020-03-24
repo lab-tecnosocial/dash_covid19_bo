@@ -30,7 +30,7 @@
             <h1>Dashboard de casos de coronavirus en Sudamérica y Bolivia</h1>
             <h2 id="autor"><a href="http://labtecnosocial.org/" target="_blank">Lab TecnoSocial</a></h2>
             <p>Este es un dashboard inicial sobre los datos sobre coronavirus en Sudámerica y Bolivia.
-                Los datos los recolectamos automáticamente cada diez minutos de una <a
+                Los datos los solicitamos automáticamente cada diez minutos a una <a
                     href="https://github.com/novelcovid/api" target="_blank">JSON API</a> hecha a partir de los datos
                 del <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">Johns Hopkins University Center
                     for Systems Science and Engineering (JHU CSSE)</a>.
@@ -45,7 +45,7 @@
         </div>
         <div class="card fig2">
             <h2>Difusión del coronavirus</h2>
-            <p>Esta información se actualiza sólo al final del día. Clic en el punto de la linea para ver el dato preciso. Clic en los cuadros coloreados de la leyenda para filtrar por paises. El formato del tiempo es mes/dia/año.
+            <p>Esta información se actualiza con un día de retraso. Clic en el punto de la linea para ver el dato preciso. Clic en los cuadros coloreados de la leyenda para filtrar por paises. El formato del tiempo es mes/dia/año.
             </p>
             <canvas id="myChart2" width="300" height="250"></canvas>
         </div>
@@ -66,21 +66,21 @@
                     labels: datos.pais,
                     datasets: [
                         {
-                            label: 'No. Casos',
+                            label: 'Casos',
                             data: datos.casos,
                             borderColor: 'rgba(255, 205, 86, 1)',
                             backgroundColor: 'rgba(255, 205, 86, 0.5)',
                             borderWidth: 1
                         },
                         {
-                            label: 'No. Muertos',
+                            label: 'Decesos',
                             data: datos.muertos,
                             borderColor: 'rgba(255, 99, 132, 1)',
                             backgroundColor: 'rgba(255, 99, 132, 0.5)',
                             borderWidth: 1
                         },
                         {
-                            label: 'No. Recuperados',
+                            label: 'Recuperados',
                             data: datos.recuperados,
                             borderColor: 'rgba(75, 192, 192, 1)',
                             backgroundColor: 'rgba(75, 192, 192, 0.5)',
