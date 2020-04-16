@@ -313,7 +313,7 @@
                 muertos.push(item.deaths);
                 recuperados.push(item.recovered);
             });
-            pais.splice(0, 1, 'Brasil');
+            pais.splice(2, 1, 'Brasil');
             return { pais, casos, muertos, recuperados }
         };
         const api2_url = 'https://corona.lmao.ninja/historical';
